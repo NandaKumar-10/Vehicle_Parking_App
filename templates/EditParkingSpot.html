@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block title %} Edit Parking Spot {% endblock %}
+{% block body %}
+    <div class="container mt-5 text-center">
+    <h1 class="card-title">Parking Lot: {{ lot.prime_location_name }}</h1>
+    <table class="table table-hover table-light table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for spot in spots %}
+            <tr>
+                <td>{{ spot.id }}</td>
+                <td>{{ spot.status }}</td>
+                <td>
+                    <form method="POST">
+                        <input type="hidden" name="spot_id" value="{{ spot.id }}">
+                        {% if spot.status=='A' %}
+                            <button class="btn btn-outline-danger" name="action" value="delete">Delete</button>
+                        {% elif spot.status=='O' %}
+                            <button class="btn btn-outline-secondary" disabled>Delete</button>
+                        {% endif %}
+                    </form>
+                </td>
+                {% set ns = namespace(found=false) %}
+                {% for detail in details %}
+                    {% if detail.spot_id==spot.id %}
+                        <td>
+                            User Id:{{ detail.user_id }}<br>
+                            Parking In Time: {{ detail.Parking_timestamp.strftime('%d-%m-%Y') }} {{ detail.Parking_timestamp.strftime('%H:%M:%S') }}<br>
+                            Vehicle Number: {{ detail.vehicle_no }}
+                        </td>
+                        {% set ns.found = true %}
+                    {% endif %}
+                {% endfor %}
+                {% if not ns.found %}
+                    <td>N/A</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{{ url_for('dashboard') }}" role="button">
+            Back
+        </a>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block title %} Edit Parking Lot {% endblock %}
+{% block body %}
+    <div class="card mx-auto my-5" style="width: 40rem;">
+        <div class="card-body">
+            <h4 class="card-title"> Edit Parking Lot </h4>
+            <form method="POST" class="form-register" style="color:black">
+                {{ form.hidden_tag() }}
+                <br>
+                {{ form.city.label() }}
+                {{ form.city(class="form-control", placeholder="City") }}
+
+                {{ form.locationName.label() }}
+                {{ form.locationName(class="form-control", placeholder="Location Name") }}
+
+                {{ form.price.label() }}
+                {{ form.price(class="form-control", placeholder="Price") }}
+
+                {{ form.address.label() }}
+                {{ form.address(class="form-control", placeholder="Address") }}
+
+                {{ form.pincode.label() }}
+                {{ form.pincode(class="form-control", placeholder="Pincode") }}
+
+                {{ form.No_Spots.label() }}
+                {{ form.No_Spots(class="form-control", placeholder="No.of Spots") }}
+                <br>
+                <div class="text-center">
+                    {{ form.submit(class="btn btn-lg btn-block btn-primary") }}
+                    <a class="btn btn-lg btn-block btn-primary" style="align-self: center" href="{{ url_for('dashboard') }}" role="button">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

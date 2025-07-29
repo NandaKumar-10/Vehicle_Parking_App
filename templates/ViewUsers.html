@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% block title %} View Users {% endblock %}
+{% block body %}
+    <div class="container mt-5 text-center">
+    <div class="card mx-auto my-5" >
+    <div class="card-header">
+        <h3 class="text-center">
+            Registered Users
+        </h3>
+    </div>
+    <table class="table table-hover table-light table-striped">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">E-Mail</th>
+            <th scope="col">Name</th>
+            <th scope="col">Address</th>
+            <th scope="col">Pincode</th>
+            <th scope="col">Details</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.name }}</td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.pincode }}</td>
+            <td>
+                {% set ns=namespace(flag=1) %}
+                {% for spot in spots %}
+                    {% if spot.user_id==user.id %}
+                        {% if spot.leaving_timestamp!=None %}
+                        Previously Occupied: Booking ID-{{ spot.id }} Location: {{ spot.location_name }} Price: {{ spot.price }}
+                        {% elif spot.leaving_timestamp==None %}
+                            <b>Currently Occupied:</b> Booking ID-{{ spot.id }} Location: {{ spot.location_name }} Lot id: {{ spot.lot_id }}
+                        {% endif %}
+                        <br>
+                        {% set ns.flag=0 %}
+                    {% endif %}
+                {% endfor %}
+                {% if ns.flag==1 %}
+                    Nil
+                {% endif %}
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+    </div>
+{% endblock %}

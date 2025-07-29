@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard-{{ session['name'] }}{% endblock %}
+{% block body %}
+    <div class="container mt-5 text-center">
+        <div class="card mx-auto my-auto">
+        <h3 class="card-title">Recent Parking History</h3>
+        <table class="table table-hover table-light table-striped">
+            <thead>
+            <tr>
+                <th scope="col">S.No</th>
+                <th scope="col">Booking ID</th>
+                <th scope="col">Location</th>
+                <th scope="col">Vehicle Number</th>
+                <th scope="col">Timestamp</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            {% for spot in spots %}
+                <tbody>
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ spot.id }}</td>
+                    <td>{{ spot.spot.lot.prime_location_name }}</td>
+                    <td>{{ spot.vehicle_no }}</td>
+                    <td>
+                        {{ spot.Parking_timestamp.date() }}
+                        {{ spot.Parking_timestamp.strftime('%H:%M:%S') }}
+                    </td>
+                    <td>{% if spot.occupancy=='Occupied' %}
+                        <form method="POST" action="{{ url_for('dashboard') }}">
+                            <input type="hidden" name="release_out" value="{{ spot.id }}">
+                            <button type="submit" class="btn btn-danger">Release Out</button>
+                        </form>
+                    {% else %}
+                        <p style="color:#6df36d">Done</p>
+                    {% endif%}</td>
+                </tr>
+                </tbody>
+            {% endfor %}
+        </table>
+        </div>
+    <div class="text-center">
+    <a class="btn btn-primary" href="{{ url_for('UserBookSpot',user_id=session.get('userid')) }}" role="button">
+        Book the Parking Spot
+    </a>
+    </div>
+    </div>
+{% endblock %}

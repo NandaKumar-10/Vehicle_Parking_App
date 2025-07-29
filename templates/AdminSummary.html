@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}Admin Summary{% endblock %}
+{% block body %}
+    <div class="container mt-4" style="background-color:white;">
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="PriceAdminSummary" width="150" height="150"></canvas>
+                <p class="mt-2 text-center"><strong>Income from each User ID</strong></p>
+            </div>
+
+        <div class="col-md-6">
+            <canvas id="OccupiedAdminSummary" width="150" height="150"></canvas>
+            <p class="mt-2 text-center"><strong>Spots Usage</strong></p>
+        </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const user=JSON.parse('{{ User | tojson | safe }}')
+        const price=JSON.parse('{{ Price | tojson | safe }}')
+        const Occupied=JSON.parse('{{ Occupied_spot | tojson | safe }}')
+        const notOccupied=JSON.parse('{{ UnOccupiedSpot | tojson | safe }}')
+    </script>
+    <script src="{{ url_for('static',filename='AdminSummary.js') }}"></script>
+{% endblock %}

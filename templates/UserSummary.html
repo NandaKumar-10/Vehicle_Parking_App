@@ -1,0 +1,52 @@
+{%  extends 'base.html' %}
+{%  block title %}User Summary{% endblock %}
+{% block body %}
+    <div class="col-8 offset-2 my-5">
+        <div class="card">
+            <div class="card-body">
+                <canvas id="userSummary"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-auto">
+    <div class="card mx-auto my-5">
+        <div class="card-header">
+            <h3 class="text-center">Booking History</h3>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover table-light table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">S.No</th>
+                    <th scope="col">Booking ID</th>
+                    <th scope="col">Location</th>
+                    <th scope="col">Parking In Time</th>
+                    <th scope="col">Parking Out Time</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Vehicle No</th>
+                </tr>
+                </thead>
+                <tbody>
+                {%  for record in records %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ record.id }}</td>
+                    <td>{{ record.location_name }}</td>
+                    <td>{{ record.parking_timestamp.strftime('%d-%m-%Y') }}-{{ record.parking_timestamp.strftime('%H:%M:%S') }}</td>
+                    <td>{{ record.leaving_timestamp.strftime('%d-%m-%Y') }}-{{ record.leaving_timestamp.strftime('%H:%M:%S') }}</td>
+                    <td>{{ record.price }}</td>
+                    <td>{{ record.vehicle_no }}</td>
+                </tr>
+                {%  endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const Occupied=JSON.parse('{{ Occupied_spot | tojson | safe }}')
+        const notOccupied=JSON.parse('{{ UnOccupiedSpot | tojson | safe }}')
+    </script>
+    <script src="{{ url_for('static',filename='UserSummary.js') }}"></script>
+{% endblock %}

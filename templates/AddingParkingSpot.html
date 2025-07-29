@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %} ParkingSpot {% endblock %}
+{% block body %}
+    <form method="POST" class="form-register" style="color:black">
+        <label for="Chossing">Choose the Area</label>
+        <select name="ChoosingArea" id="area" onchange="this.form.submit()">
+            <option value="">-- Select City --</option>
+            {% for lot in Lots %}
+                <option value="{{ lot }}" {% if lot==selected_city %}selected{% endif %}>{{lot}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        {% if Areas  %}
+            <label for="Area">Area</label>
+            <select name="Area" id="area" onchange="this.form.submit()">
+                {% for area in Areas %}
+                    <option value="{{ area }}">{{ area }}</option>
+                {% endfor %}
+            </select>
+        <br><br>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        {% endif %}
+    </form>
+{% endblock %}

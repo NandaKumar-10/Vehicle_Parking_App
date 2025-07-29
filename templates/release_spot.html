@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{%  block title %}Release Spot{% endblock %}
+{%  block body %}
+    <div class="card mx-auto my-5" style="width: 40rem;">
+        <div class="card-body">
+            <h4 class="card-title">Login Form </h4>
+            <form method="POST" class="form-login">
+                {{ form.hidden_tag() }}
+                <br>
+                <div class="form-group m-3">
+                    {{ form.booking_id.label }}
+                    {{ form.booking_id(class='form-control',readonly=True) }}
+
+                    {{ form.vehicle_no.label }}
+                    {{ form.vehicle_no(class='form-control',readonly=True) }}
+
+                    {{ form.Park_in_timestamp.label }}
+                    {{ form.Park_in_timestamp(class='form-control',readonly=True) }}
+
+                    {{ form.Leave_out_timestamp.label }}
+                    {{ form.Leave_out_timestamp(class='form-control',readonly=True) }}
+
+                    {{ form.Total_cost.label }}
+                    {{ form.Total_cost(class='form-control',readonly=True) }}
+                </div>
+                <div class="m-4">
+                    {{ form.Release_Out(class="btn btn-outline-success me-4 px-4") }}
+                    <a href="{{ url_for('dashboard') }}" class='btn btn-outline-dark ms-4 px-4'>Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

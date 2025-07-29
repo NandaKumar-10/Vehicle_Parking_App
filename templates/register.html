@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Register{% endblock %}
+{% block body %}
+    <div class="card mx-auto my-5" style="width: 40rem;">
+        <div class="card-body">
+            <h4 class="card-title"> User Registration Form </h4>
+            <form method="POST" class="form-register">
+                {{ form.hidden_tag() }}
+                <br>
+                <div class="form-group m-3">
+                    {{ form.email.label() }}
+                    {{ form.email(class="form-control", placeholder="Email") }}
+
+                    {{ form.password.label() }}
+                    {{ form.password(class="form-control", placeholder="password") }}
+
+                    {{ form.name.label() }}
+                    {{ form.name(class="form-control", placeholder="User Name") }}
+
+                    {{ form.address.label() }}
+                    {{ form.address(class="form-control", placeholder="Address") }}
+
+                    {{ form.pincode.label() }}
+                    {{ form.pincode(class="form-control", placeholder="Pincode") }}
+
+                    <br>
+                    {{ form.submit(class="btn btn-outline-success m-3 px-4") }}
+                    <a href="{{ url_for('login') }}" class='btn btn-outline-dark ms-4 px-4'>Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

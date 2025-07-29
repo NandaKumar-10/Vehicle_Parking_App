@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Book Lots{% endblock %}
+{% block body %}
+    <div class="card mx-auto my-5" style="width: 18rem;">
+        <div class="card-body">
+            <form method="POST" class="form-login" style="color:black">
+                <div class="form-group">
+                    <label for="Choosing" class="form-label">Choose the Area</label>
+                    <div class="col-12">
+                        <select class="form-select" name="ChoosingArea" id="area" onchange="this.form.submit()">
+                            <option value="">-- Select City --</option>
+                            {% for lot in Lots %}
+                                <option value="{{ lot }}" {% if lot==selected_city %}selected{% endif %}>
+                                    {{lot}}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <label for="Area" class="form-label">Area</label>
+                    <div class="col-12">
+                        <select class="form-select" name="Area" id="Area" >
+                            {% for area in Areas %}
+                                <option value="{{ area.prime_location_name }}">
+                                    {{ area.prime_location_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                <br>
+                <div class="col-12">
+                    <label for="vehicleNo" class="form-label">Vehicle Number</label>
+                    <input type="text" class="form-control" name="vehicleNo" id="vehicleNo" placeholder="XX 01 XX 0000">
+                </div>
+                <br>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

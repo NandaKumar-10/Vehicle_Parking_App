@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% block title %} Search {% endblock %}
+{% block body %}
+    <div class="container mt-auto">
+        <div class="card mx-auto my-5" >
+            <div class="card-header">
+                <h5 class="text-center">Search Results</h5>
+            </div>
+            <div class="card-body">
+                <form method="POST" class="d-flex" role="search">
+                    <select class="form-select me-2" name="search_by">
+                        <option value="">-- Choose the option --</option>
+                        <option value="parking_location" class="dropdown-item" {% if selected_option=="parking_location" %} selected {% endif %}>
+                            Parking Spots by location
+                        </option>
+                        <option value="User" class="dropdown-item" {% if selected_option=="User" %} selected {% endif %}>
+                            User
+                        </option>
+                    </select>
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search"/>
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <br><br>
+                {% if flag==1 %}
+                    {% if user %}
+                        <table class="table table-hover table-light table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">S.No</th>
+                                <th scope="col">User ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Booking History</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                                <td>
+                                    {% if results %}
+                                        {% for detail in results %}
+                                            Booking Id:{{ detail.id }}<br>
+                                            Location:{{ detail.location_name }}<br>
+                                            Parking In Time: {{ detail.parking_timestamp.strftime('%d-%m-%Y') }}-{{ detail.parking_timestamp.strftime('%H:%M:%S') }}<br>
+                                            {% if detail.leaving_timestamp %}
+                                                Parking Out Time: {{ detail.leaving_timestamp.strftime('%d-%m-%Y') }}-{{ detail.leaving_timestamp.strftime('%H:%M:%S') }}<br>
+                                                Price:{{ detail.price }}<br>
+                                            {% endif %}
+                                            Vehicle Number: {{ detail.vehicle_no }}<br><br>
+                                        {% endfor %}
+                                    {% else %}
+                                        Nil
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <h5 style="text-align: center">No records found</h5>
+                    {% endif %}
+                {% endif %}
+                {% if flag==2 %}
+                    {% if lots and lots|length > 0 %}
+                        <table class="table table-hover table-light table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">S.No</th>
+                                <th scope="col">Location ID</th>
+                                <th scope="col">City</th>
+                                <th scope="col">Prime_Location_Name</th>
+                                <th scope="col">Total No of Spots</th>
+                                <th scope="col">No of spots currently occupied</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for lot in lots %}
+                                <tr>
+                                    <td>{{ loop.index }}</td>
+                                    <td>{{ lot.id }}</td>
+                                    <td>{{ lot.city }}</td>
+                                    <td>{{ lot.prime_location_name }}</td>
+                                    <td>{{ lot.max_no_spots }}</td>
+                                    <td>{{ lot.no_spot_occupied }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <h5 style="text-align: center">No result found</h5>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

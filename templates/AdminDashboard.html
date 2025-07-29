@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}AdminDashboard-{{ session['name'] }}{% endblock %}
+
+{% block body %}
+    <div class="d-flex flex-column align-items-center mt-4">
+    <div class="d-flex justify-content-center gap-3 mb-3">
+    {% for lot in lots %}
+    {% set outer_index = loop.index0 %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title" style="text-align: center">{{ loop.index }}. Parking Lot No: {{ lot.id }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary" style="text-align: center">{{ lot.city }} - {{ lot.prime_location_name }}<br>Address: {{ lot.address }}</h6>
+            <h6 class="card-subtitle mb-2 text-body-secondary" style="text-align: center">(Occupied: {{ lot.no_spot_occupied }}/{{ lot.max_no_spots }})</h6>
+            <div style="text-align: center">
+                <form method="POST">
+                    <input type="hidden" name="lot_id" value="{{ lot.id }}">
+                    <button class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 0.90rem; text-align: center" name="action" value="edit">Edit</button>
+                    <button class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 0.90rem; text-align: center" name="action" value="delete">Delete</button>
+                    <a class="btn btn-secondary" style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: 0.90rem; text-align: center" href="{{ url_for('EditParkingSpot',lot_id=lot.id) }}" role="button">View the Spots</a>
+                </form>
+            </div>
+        <br>
+            <div class="container text-center">
+                <div class="row row-cols-5 g-3 justify-content-center">
+                {% for spot in spots[outer_index] %}
+                    <div class="col">
+                    {% if spot.status=='A' %}<div class="spot-box" style="background-color: #a8ffa0">A</div>
+                    {% else %}<div class="spot-box" style="background-color: #ff8e8e">O</div>
+                    {% endif %}
+                    </div>
+                {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+    </div>
+    <br><br>
+    <div class="text-center">
+        <a class="btn btn-primary" href="{{ url_for('AddingParkingLot') }}" role="button">
+            Add Parking Lot
+        </a>
+    </div>
+{% endblock %}
