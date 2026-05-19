@@ -1,3 +1,4 @@
+import utils.session
 from flask import Flask
 from models.model import db
 from controllers.routes import init_routes
